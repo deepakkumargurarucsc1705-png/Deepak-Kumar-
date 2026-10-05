@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Allow users to read and write profiles
+    match /Users/{userId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    
+    // Inventory collection
+    match /Inventory/{inventoryId} {
+      allow read, write: if isAuthenticated();
+    }
+    
+    // Daily Logs collection
+    match /Daily_Logs/{logId} {
+      allow read, write: if isAuthenticated();
+    }
+    
+    // Requests collection (Connection requests, POD, Discrepancies, Settlements)
+    match /Requests/{requestId} {
+      allow read, write: if isAuthenticated();
+    }
+    
+    // Default fallback
+    match /{document=**} {
+      allow read, write: if isAuthenticated();
+    }
+  }
+}

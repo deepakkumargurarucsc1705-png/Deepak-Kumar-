@@ -1,0 +1,132 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Farmers and Dealers registered in the poultry contract network",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "role": { "type": "string", "enum": ["farmer", "dealer"] },
+        "district": { "type": "string" },
+        "block": { "type": "string" },
+        "farmName": { "type": "string" },
+        "dealerBusinessName": { "type": "string" },
+        "linkedDealerId": { "type": "string" },
+        "linkedDealerName": { "type": "string" },
+        "activeFlockId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid", "name", "role", "district", "block"]
+    },
+    "Inventory": {
+      "title": "Inventory",
+      "description": "Stock tracking for pre-starter/finisher feed, chicks, and medicines",
+      "type": "object",
+      "properties": {
+        "farmerId": { "type": "string" },
+        "dealerId": { "type": "string" },
+        "smallFeedBags": { "type": "number", "description": "Small Feed (Pre-starter) bags in stock" },
+        "largeFeedBags": { "type": "number", "description": "Large Feed (Finisher) bags in stock" },
+        "totalChicks": { "type": "number", "description": "Current active flock birds alive" },
+        "initialChicks": { "type": "number", "description": "Initial chicks received for the batch" },
+        "lotStartDate": { "type": "string" },
+        "lotAgeDays": { "type": "number" },
+        "medicines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "quantity": { "type": "string" },
+              "rate": { "type": "number" },
+              "dosage": { "type": "string" },
+              "addedAt": { "type": "string" }
+            }
+          }
+        },
+        "lastUpdated": { "type": "string" }
+      },
+      "required": ["farmerId", "smallFeedBags", "largeFeedBags", "totalChicks"]
+    },
+    "DailyLog": {
+      "title": "Daily_Log",
+      "description": "Visual daily mortality and feed consumption logged by farmer",
+      "type": "object",
+      "properties": {
+        "farmerId": { "type": "string" },
+        "date": { "type": "string" },
+        "mortality": { "type": "number", "description": "Red Cross Hen entries for the day" },
+        "healthyBirds": { "type": "number", "description": "Green Healthy Hen count surviving" },
+        "smallFeedConsumedBags": { "type": "number" },
+        "largeFeedConsumedBags": { "type": "number" },
+        "temperatureCelsius": { "type": "number" },
+        "notes": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["farmerId", "date", "mortality", "healthyBirds"]
+    },
+    "Request": {
+      "title": "Request",
+      "description": "Smart linking requests, Proof of Delivery (POD) confirmations, discrepancy reports, and settlement requests",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["connection", "pod_delivery", "issue_report", "lot_settlement"] },
+        "farmerId": { "type": "string" },
+        "farmerName": { "type": "string" },
+        "farmerPhone": { "type": "string" },
+        "dealerId": { "type": "string" },
+        "dealerName": { "type": "string" },
+        "district": { "type": "string" },
+        "block": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected", "disputed", "completed"] },
+        "dispatchDetails": {
+          "type": "object",
+          "properties": {
+            "smallFeedBags": { "type": "number" },
+            "largeFeedBags": { "type": "number" },
+            "chicksCount": { "type": "number" },
+            "dispatchNote": { "type": "string" }
+          }
+        },
+        "podPhotos": {
+          "type": "object",
+          "properties": {
+            "invoicePhoto": { "type": "string" },
+            "unloadedFeedPhoto": { "type": "string" },
+            "vehicleDriverPhoto": { "type": "string" }
+          }
+        },
+        "issueReport": {
+          "type": "object",
+          "properties": {
+            "issueType": { "type": "string" },
+            "description": { "type": "string" },
+            "photo": { "type": "string" }
+          }
+        },
+        "settlementSummary": {
+          "type": "object",
+          "properties": {
+            "flockCycleDays": { "type": "number" },
+            "initialChicks": { "type": "number" },
+            "totalMortality": { "type": "number" },
+            "mortalityRatePercent": { "type": "number" },
+            "remainingBirds": { "type": "number" },
+            "totalFeedConsumedBags": { "type": "number" },
+            "fcrRatio": { "type": "number" },
+            "totalFarmerEarning": { "type": "number" },
+            "totalDeductions": { "type": "number" },
+            "netSettlementAmount": { "type": "number" }
+          }
+        },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["type", "farmerId", "dealerId", "status"]
+    }
+  }
+}

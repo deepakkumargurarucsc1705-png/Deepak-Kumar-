@@ -1,0 +1,6 @@
+{
+  "name": "Poultry Farming Management System",
+  "description": "AI-Powered Poultry Contract Farming Management System connecting poultry dealers and local farmers with visual inventory, proof of delivery, flock monitoring, disease detection, and auto-settlement.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
